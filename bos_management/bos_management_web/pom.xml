@@ -13,4 +13,13 @@
     <packaging>war</packaging>
     <description>后台系统子模块,用于存放WEB层代码</description>
 
+    <!--依赖bos_management_service-->
+    <dependencies>
+        <dependency>
+            <groupId>com.itheima</groupId>
+            <artifactId>bos_management_service</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
 </project>

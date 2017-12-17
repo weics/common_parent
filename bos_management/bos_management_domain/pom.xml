@@ -12,5 +12,14 @@
     <artifactId>bos_management_domain</artifactId>
     <description>后台系统子模块,用于存放实体类</description>
 
+    <!--依赖bos_management-->
+    <dependencies>
+        <dependency>
+            <groupId>com.itheima</groupId>
+            <artifactId>bos_management</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
 
 </project>
