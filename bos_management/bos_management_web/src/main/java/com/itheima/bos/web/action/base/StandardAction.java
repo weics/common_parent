@@ -31,7 +31,7 @@ public class StandardAction extends ActionSupport implements ModelDriven<Standar
     private StandardService standardService;
 
     //添加收派标准
-    @Action(value = "standardAction_save", results = {@Result(name = "success",type = "redirect",location = "/pages/base/standard.jsp")})
+    @Action(value = "standardAction_save", results = {@Result(name = "success", type = "redirect", location = "/pages/base/standard.jsp")})
     public String save() throws Exception {
         standardService.save(model);
         return SUCCESS;
