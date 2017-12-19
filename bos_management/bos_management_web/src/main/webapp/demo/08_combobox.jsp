@@ -153,80 +153,14 @@
 
     <%--选项卡面板,fit:true,自适应父容器大小--%>
     <div id="mytabs" class="easyui-tabs" data-options="fit:true">
-        <%--每个子div就是其中的一个面板--%>
-        <div title="About" style="padding:10px">
-            <table class="easyui-datagrid">
-                <thead>
-                <tr>
-                    <th data-options="field:'id'">id</th>
-                    <th data-options="field:'name'">name</th>
-                    <th data-options="field:'age'">年龄</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>2</td>
-                    <td>2</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>3</td>
-                    <td>3</td>
-                </tr>
-                </tbody>
-            </table>
-            <hr/>
-            <%--为datagrid指定一个URL属性,当页面加载完成后,弓箭自动发送一个ajax请求获取服务端提供的动态数据(数据格式必须为json!!!)
-                获取到动态数据后,自动解析,展示到页面--%>
-            <table class="easyui-datagrid" data-options="url:'../data/standard.json'">
-                <thead>
-                <tr>
-                    <th data-options="field:'id'">id</th>
-                    <th data-options="field:'name'">name</th>
-                    <th data-options="field:'age'">年龄</th>
-                </tr>
-                </thead>
-            </table>
-            <hr/>
-            <table id="mygrid">
-            </table>
-            <script>
-                $(function () {
-                    //页面加载完成后,调用easyUI提供的API动态创建一个数据表格
-                    $("#mygrid").datagrid({
-                        //定义表头(表头所有的列)
-                        columns: [[
-                            {feild: 'id', title: '用户编号'},//每个json对象表示一列
-                            {field: 'name', title: '用户姓名'},
-                            {field: 'address', title: '用户地址'}
-                        ]],
-                        //获取数据
-                        url: '../data/datagrid_data.json',
-                        rownumbers: true,
-                        singleSelect: true,
-                        //工具栏
-                        toolbar: [
-                            {
-                                text: "添加", iconCls: 'icon-add', handler: function () {
-                                alert("你点击了添加按钮！！！");
-                            }
-                            },//每个json对象表示一个按钮
-                            {text: "删除", iconCls: 'icon-remove'},
-                            {text: "查询", iconCls: 'icon-search'}
-                        ],
-                        //分页条
-                        pagination: true,
-                        pageList: [7, 9, 13]
-                    });
-                });
-            </script>
-        </div>
+        <select name="" id="" class="easyui-combobox">
+            <option value="1">北京</option>
+            <option value="2">上海</option>
+            <option value="3">深圳</option>
+        </select>
+        <hr>
+        <input class="easyui-combobox"
+               data-options="url:'${pageContext.request.contextPath}/data/combobox_data.json',textField:'cityname',valueField:'id'">
     </div>
 </div>
 </body>
