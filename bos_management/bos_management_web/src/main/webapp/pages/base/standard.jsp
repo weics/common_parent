@@ -32,7 +32,7 @@
                 pageList: [30, 50, 100],
                 pagination: true,
                 toolbar: toolbar,
-                url: "../../data/standard.json",
+                url: "${pageContext.request.contextPath}/standardAction_pageQuery.action",
                 idField: 'id',
                 columns: columns
             });
@@ -51,7 +51,18 @@
             text: '修改',
             iconCls: 'icon-edit',
             handler: function () {
-                alert('修改');
+                //调用datagrid的getSelections方法,获得所有选中的行
+                var rows = $("#grid").datagrid("getSelections");
+                if (rows.length == 1) {
+                    //弹出修改窗口
+                    $("#standardEditWindow").window("open");
+                    //并且进行数据回显
+                    var row = rows[0];//row就是一个json对象，格式{"id":2,"maxLength":0,"maxWeight":0,"minLength":0,"minWeight":0,"name":"test2","operatingCompany":"","operatingTime":null,"operator":""}
+                    $("#standardEditForm").form("load", row);
+                } else {
+                    //不是一条数据,弹出一个提示
+                    $.messager.alert("提示信息", "请选择一条数据修改", "warning");
+                }
             }
         }, {
             id: 'button-delete',
@@ -145,6 +156,75 @@
     <div region="center" style="overflow:auto;padding:5px;" border="false">
 
         <form id="standardForm" action="${pageContext.request.contextPath}/standardAction_save.action" method="post">
+            <table class="table-edit" width="80%" align="center">
+                <tr class="title">
+                    <td colspan="2">收派标准信息
+                        <!--提供隐藏域 装载id -->
+                        <input type="hidden" name="id"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>收派标准名称</td>
+                    <td>
+                        <input type="text" name="name"
+                               class="easyui-validatebox" data-options="required:true"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>最小重量</td>
+                    <td>
+                        <input type="text" name="minWeight"
+                               class="easyui-numberbox" required="true"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>最大重量</td>
+                    <td>
+                        <input type="text" name="maxWeight" class="easyui-numberbox" required="true"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>最小长度</td>
+                    <td>
+                        <input type="text" name="minLength" class="easyui-numberbox" required="true"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>最大长度</td>
+                    <td>
+                        <input type="text" name="maxLength" class="easyui-numberbox" required="true"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+
+<%--修改收派件标准窗口--%>
+<div class="easyui-window" title="对收派标准进行添加或者修改" id="standardEditWindow" collapsible="false" minimizable="false"
+     maximizable="false" modal="true" closed="true" style="width:600px;top:50px;left:200px">
+    <div region="north" style="height:31px;overflow:hidden;" split="false" border="false">
+        <div class="datagrid-toolbar">
+            <a id="edit" icon="icon-save" href="#" class="easyui-linkbutton" plain="true">保存</a>
+            <script type="text/javascript">
+                //为上面的按钮绑定事件
+                $("#edit").click(function () {
+                    //验证表单输入是否合法
+                    //调用easyUI种form表单对象的validate方法,如果表单种所有的输入项都合法返回true,否则返回false
+                    var b = $("#standardEditForm").form("validate");
+                    if (b) {
+                        //校验通过,提交表单
+                        $("#standardEditForm").submit();
+                    }
+                });
+            </script>
+        </div>
+    </div>
+
+    <div region="center" style="overflow:auto;padding:5px;" border="false">
+
+        <form id="standardEditForm" action="${pageContext.request.contextPath}/standardAction_save.action"
+              method="post">
             <table class="table-edit" width="80%" align="center">
                 <tr class="title">
                     <td colspan="2">收派标准信息

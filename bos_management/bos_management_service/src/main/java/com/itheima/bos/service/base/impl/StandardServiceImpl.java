@@ -4,6 +4,8 @@ import com.itheima.bos.dao.base.StandardDao;
 import com.itheima.bos.domain.base.Standard;
 import com.itheima.bos.service.base.StandardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,5 +20,11 @@ public class StandardServiceImpl implements StandardService {
     @Override
     public void save(Standard model) {
         standardDao.save(model);
+    }
+
+    //收派件标准分页查询
+    @Override
+    public Page<Standard> pageQuery(Pageable pageable) {
+        return standardDao.findAll(pageable);
     }
 }
