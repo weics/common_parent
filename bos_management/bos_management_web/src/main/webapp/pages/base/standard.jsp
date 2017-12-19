@@ -144,7 +144,7 @@
 
     <div region="center" style="overflow:auto;padding:5px;" border="false">
 
-        <form id="standardForm" action="${pageContext.request.contextPath}/standardAction_save.action">
+        <form id="standardForm" action="${pageContext.request.contextPath}/standardAction_save.action" method="post">
             <table class="table-edit" width="80%" align="center">
                 <tr class="title">
                     <td colspan="2">收派标准信息
