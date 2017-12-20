@@ -4,6 +4,7 @@ import com.itheima.bos.domain.base.Standard;
 import com.itheima.bos.service.base.StandardService;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
@@ -84,4 +85,19 @@ public class StandardAction extends ActionSupport implements ModelDriven<Standar
 
         return NONE;
     }
+
+    //查询所有收派标准
+    @Action(value = "standardAction_findAll")
+    public String findAll() throws Exception {
+
+        List<Standard> list = standardService.findAll();
+
+        String json = JSONArray.fromObject(list).toString();
+
+        //通过输出流将json数据响应到页面
+        ServletActionContext.getResponse().setContentType("text/json;charset=UTF-8");
+        ServletActionContext.getResponse().getWriter().write(json);
+        return NONE;
+    }
+
 }
