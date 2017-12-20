@@ -7,12 +7,14 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class CourierServiceImpl implements CourierService {
+public class CourierServiceImpl implements CourierService{
     @Autowired
     private CourierDao courierDao;
 
@@ -37,5 +39,11 @@ public class CourierServiceImpl implements CourierService {
                 courierDao.deleteById(Integer.parseInt(cId));
             }
         }
+    }
+
+    //快递员分页查询,有条件
+    @Override
+    public Page<Courier> pageQuery(Specification<Courier> spe, Pageable pageable) {
+        return courierDao.findAll(spe,pageable);
     }
 }

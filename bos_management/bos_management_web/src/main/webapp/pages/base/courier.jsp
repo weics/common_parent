@@ -74,6 +74,13 @@
             text: '还原',
             iconCls: 'icon-save',
             handler: doRestore
+        }, {
+            id: 'button-search',
+            text: '查询',
+            iconCls: 'icon-search',
+            handler: function () {
+                $("#searchWindow").window("open");
+            }
         }];
         // 定义列
         var columns = [[{
@@ -160,7 +167,7 @@
                 border: false,
                 rownumbers: true,
                 striped: true,
-                pageList: [3, 5,10],
+                pageList: [3, 5, 10],
                 pagination: true,
                 toolbar: toolbar,
                 url: "${pageContext.request.contextPath}/courierAction_pageQuery.action",
@@ -275,7 +282,8 @@
 </div>
 
 <!-- 查询快递员-->
-<div class="easyui-window" title="查询快递员窗口" closed="true" id="searchWindow" collapsible="false" minimizable="false"
+<div class="easyui-window" data-options="modal:true" title="查询快递员窗口" closed="true" id="searchWindow" collapsible="false"
+     minimizable="false"
      maximizable="false" style="width: 400px; top:40px;left:200px">
     <div style="overflow:auto;padding:5px;" border="false">
         <form id="searchForm">
@@ -309,7 +317,37 @@
                 </tr>
                 <tr>
                     <td colspan="2"><a id="searchBtn" href="#" class="easyui-linkbutton"
-                                       data-options="iconCls:'icon-search'">查询</a></td>
+                                       data-options="iconCls:'icon-search'">查询</a>
+                        <script type="text/javascript">
+                            $(function () {
+                                $.fn.serializeJson = function () {
+                                    var serializeObj = {};
+                                    var array = this.serializeArray();//将指定form表单中所有的输入项转为数组简单对象
+                                    var str = this.serialize();
+                                    $(array).each(function () {
+                                        if (serializeObj[this.name]) {
+                                            if ($.isArray(serializeObj[this.name])) {
+                                                serializeObj[this.name].push(this.value);
+                                            } else {
+                                                serializeObj[this.name] = [serializeObj[this.name], this.value];
+                                            }
+                                        } else {
+                                            serializeObj[this.name] = this.value;
+                                        }
+                                    });
+                                    return serializeObj;
+                                };
+
+                                $("#searchBtn").click(function () {
+                                    //调用datagrid的load方法,这个方法可以发送ajax请求,并且可以携带参数
+                                    var json = $("#searchForm").serializeJson();//{k:v,k:v,k:v}
+                                    $("#grid").datagrid("load", json);//请求地址就是datagrid的url地址
+                                    //关闭查询窗口
+                                    $("#searchWindow").window("close");
+                                });
+                            });
+                        </script>
+                    </td>
                 </tr>
             </table>
         </form>
