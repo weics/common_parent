@@ -112,6 +112,7 @@ public class CourierAction extends ActionSupport implements ModelDriven<Courier>
                         Predicate p4 = cb.like(join.get("name").as(String.class), "%" + name + "%");
                         list.add(p4);
                     }
+
                 }
                 if (list.size() != 0) {
                     Predicate[] ps = new Predicate[list.size()];
