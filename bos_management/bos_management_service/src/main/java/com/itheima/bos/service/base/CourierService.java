@@ -1,4 +1,4 @@
-package com.itheima.bos.service;
+package com.itheima.bos.service.base;
 
 import com.itheima.bos.domain.base.Courier;
 import org.springframework.data.domain.Page;

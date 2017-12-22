@@ -1,7 +1,7 @@
 package com.itheima.bos.web.action.base;
 
 import com.itheima.bos.domain.base.Courier;
-import com.itheima.bos.service.CourierService;
+import com.itheima.bos.service.base.CourierService;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import net.sf.json.JSONObject;
