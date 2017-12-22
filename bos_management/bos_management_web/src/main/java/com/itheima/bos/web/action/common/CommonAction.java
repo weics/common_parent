@@ -1,8 +1,8 @@
 package com.itheima.bos.web.action.common;
 
-import com.itheima.bos.domain.base.Courier;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import org.apache.struts2.ServletActionContext;
@@ -58,6 +58,14 @@ public class CommonAction<T> extends ActionSupport implements ModelDriven<T> {
     private int page;//页号
     private int rows;//页大小
 
+    public int getPage() {
+        return page;
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
     public void setPage(int page) {
         this.page = page;
     }
@@ -66,6 +74,7 @@ public class CommonAction<T> extends ActionSupport implements ModelDriven<T> {
         this.rows = rows;
     }
 
+    //无条件分页查询
     public void page2json(Page<T> page, String[] excludes) {
         //获取总数据量
         long total = page.getTotalElements();
@@ -81,6 +90,22 @@ public class CommonAction<T> extends ActionSupport implements ModelDriven<T> {
         JsonConfig jsonConfig = new JsonConfig();
         jsonConfig.setExcludes(excludes);
         String json = JSONObject.fromObject(map, jsonConfig).toString();
+
+        //通过输出流将json数据响应到页面
+        ServletActionContext.getResponse().setContentType("text/json;charset=utf-8");
+        try {
+            ServletActionContext.getResponse().getWriter().write(json);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //获取所有数据
+    public void list2json(List<T> list, String[] excludes) {
+        //如何将page对象转为页面datagrid可以解析的json数据???
+        JsonConfig jsonConfig = new JsonConfig();
+        jsonConfig.setExcludes(excludes);
+        String json = JSONArray.fromObject(list, jsonConfig).toString();
 
         //通过输出流将json数据响应到页面
         ServletActionContext.getResponse().setContentType("text/json;charset=utf-8");

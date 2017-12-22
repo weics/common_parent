@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -28,5 +29,10 @@ public class AreaServiceImpl implements AreaService {
     @Override
     public Page<Area> pageQuery(Pageable pageable) {
         return areaDao.findAll(pageable);
+    }
+
+    //查询所有数据
+    public List<Area> findAll() {
+        return areaDao.findAll();
     }
 }
