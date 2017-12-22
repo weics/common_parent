@@ -4,6 +4,8 @@ import com.itheima.bos.dao.base.AreaDao;
 import com.itheima.bos.domain.base.Area;
 import com.itheima.bos.service.base.AreaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,5 +22,11 @@ public class AreaServiceImpl implements AreaService {
     @Override
     public void save(ArrayList<Area> list) {
         areaDao.save(list);
+    }
+
+    //区域分页查询
+    @Override
+    public Page<Area> pageQuery(Pageable pageable) {
+        return areaDao.findAll(pageable);
     }
 }

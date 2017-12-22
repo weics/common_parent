@@ -50,13 +50,6 @@
             id: 'button-import',
             text: '导入',
             iconCls: 'icon-redo',
-            handler:function () {
-                //调用一键上传插件的upload方法动态修改页HTML面元素
-                $("#button-import").upload({
-                    name:'areaFile',
-                    action:'${pageContext.request.contextPath}/areaAction_importAreaXls.action'
-                });
-            }
         }];
         // 定义列
         var columns = [[{
@@ -105,13 +98,19 @@
                 border: false,
                 rownumbers: true,
                 striped: true,
-                pageList: [30, 50, 100],
+                pageList: [3,5,10],
                 pagination: true,
                 toolbar: toolbar,
-                url: "../../data/area.json",
+                url: "${pageContext.request.contextPath}/areaAction_pageQuery.action",
                 idField: 'id',
                 columns: columns,
                 onDblClickRow: doDblClickRow
+            });
+
+            //调用一键上传插件的upload方法动态修改页HTML面元素
+            $("#button-import").upload({
+                name: 'areaFile',
+                action: '${pageContext.request.contextPath}/areaAction_importAreaXls.action'
             });
 
             // 添加、修改区域窗口
