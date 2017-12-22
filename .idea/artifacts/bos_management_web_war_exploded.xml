@@ -19,6 +19,9 @@
           <element id="archive" name="bos_management-1.0-SNAPSHOT.jar">
             <element id="module-output" name="bos_management" />
           </element>
+          <element id="archive" name="bos_management_utils-1.0-SNAPSHOT.jar">
+            <element id="module-output" name="bos_management_utils" />
+          </element>
           <element id="archive" name="common_parent-1.0-SNAPSHOT.jar">
             <element id="module-output" name="common_parent" />
           </element>

@@ -34,6 +34,7 @@
     <orderEntry type="module" module-name="bos_management_dao" />
     <orderEntry type="module" module-name="bos_management_domain" />
     <orderEntry type="library" name="Maven: com.itheima:bos_management:1.0-SNAPSHOT" level="project" />
+    <orderEntry type="module" module-name="bos_management_utils" />
     <orderEntry type="module" module-name="common_parent" />
     <orderEntry type="library" name="Maven: org.apache.shiro:shiro-all:1.2.2" level="project" />
     <orderEntry type="library" name="Maven: org.apache.shiro:shiro-guice:1.2.2" level="project" />
