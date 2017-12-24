@@ -1,13 +1,11 @@
 <component name="libraryTable">
   <library name="Maven: com.itheima:bos_management:1.0-SNAPSHOT">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../Java/maven/mavenLocal/mavenLocalRepository_crm/com/itheima/bos_management/1.0-SNAPSHOT/bos_management-1.0-SNAPSHOT.jar!/" />
-    </CLASSES>
+    <CLASSES />
     <JAVADOC>
-      <root url="jar://$PROJECT_DIR$/../../Java/maven/mavenLocal/mavenLocalRepository_crm/com/itheima/bos_management/1.0-SNAPSHOT/bos_management-1.0-SNAPSHOT-javadoc.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/itheima/bos_management/1.0-SNAPSHOT/bos_management-1.0-SNAPSHOT-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$PROJECT_DIR$/../../Java/maven/mavenLocal/mavenLocalRepository_crm/com/itheima/bos_management/1.0-SNAPSHOT/bos_management-1.0-SNAPSHOT-sources.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/itheima/bos_management/1.0-SNAPSHOT/bos_management-1.0-SNAPSHOT-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
