@@ -101,7 +101,7 @@ public class CommonAction<T> extends ActionSupport implements ModelDriven<T> {
     }
 
     //获取所有数据
-    public void list2json(List<T> list, String[] excludes) {
+    public void list2json(List list, String[] excludes) {
         //如何将page对象转为页面datagrid可以解析的json数据???
         JsonConfig jsonConfig = new JsonConfig();
         jsonConfig.setExcludes(excludes);

@@ -34,7 +34,48 @@
         }
 
         function doAssociations() {
-            $('#customerWindow').window('open');
+            var rows = $("#grid").datagrid("getSelections");
+            if (rows.length != 1) {
+                $.messager.alert("提示信息", "请选择一个定区操作", "warning");
+            } else {
+                //弹出关联客户窗口
+                $('#customerWindow').window('open');
+                //清空下拉框中客户信息
+                $("#noassociationSelect").empty();
+                $("#associationSelect").empty();
+                //发送一个ajax请求,请求后台系统的一个Action,在这个Action中通过CXF框架调用CRM服务获得客户数据,将获得的客户数据转为json响应的页面
+                $.post("${pageContext.request.contextPath}/fixedAreaAction_findCustomersNotAssociation.action", function (data) {
+                    //解析data,将客户信息展示到下拉框中
+                    if (data.length > 0) {
+                        for (var i = 0; i < data.length; i++) {
+                            var id = data[i].id;
+                            var telephone = data[i].telephone;
+                            var username = data[i].username + "[" + telephone + "]";
+                            var address = data[i].address;
+                            var option = "<option title='" + address + "'value='" + id + "'>" + username + "</option>";
+                            $("#noassociationSelect").append(option);
+                        }
+                    }
+                });
+
+                //获取当前选中顶驱的id
+                var fixedAreaId = rows[0].id;
+
+                //发送一个ajax请求,请求后台系统的一个Action,在这个Action中通过CXF框架调用CRM服务获得客户数据,将获得客户数据转为json响应的页面
+                $.post("${pageContext.request.contextPath}/fixedAreaAction_findCustomersHasAssociation.action", {id: fixedAreaId}, function (data) {
+                    //解析data,将客户信息展示到下拉框中
+                    if (data.length > 0) {
+                        for (var i = 0; i < data.length; i++) {
+                            var id = data[i].id;
+                            var telephone = data[i].telephone;
+                            var username = data[i].username + "[" + telephone + "]";
+                            var address = data[i].address;
+                            var option = "<option title='" + address + "'value='" + id + "'>" + username + "</option>";
+                            $("#associationSelect").append(option);
+                        }
+                    }
+                });
+            }
         }
 
         //工具栏
@@ -125,7 +166,7 @@
                 border: true,
                 rownumbers: true,
                 striped: true,
-                pageList: [30, 50, 100],
+                pageList: [3, 5, 10],
                 pagination: true,
                 toolbar: toolbar,
                 url: "${pageContext.request.contextPath}/fixedAreaAction_pageQuery.action",
@@ -368,7 +409,9 @@
 <div modal="true" class="easyui-window" title="关联客户窗口" id="customerWindow" collapsible="false" closed="true"
      minimizable="false" maximizable="false" style="top:20px;left:200px;width: 400px;height: 300px;">
     <div style="overflow:auto;padding:5px;" border="false">
-        <form id="customerForm" action="../../fixedAreaAction_assignCustomers2FixedArea.action" method="post">
+        <form id="customerForm"
+              action="${pageContext.request.contextPath}/fixedAreaAction_assignCustomers2FixedArea.action"
+              method="post">
             <table class="table-edit" width="80%" align="center">
                 <tr class="title">
                     <td colspan="3">关联客户</td>
@@ -390,6 +433,34 @@
                 <tr>
                     <td colspan="3"><a id="associationBtn" href="#" class="easyui-linkbutton"
                                        data-options="iconCls:'icon-save'">关联客户</a></td>
+
+                    <script type="text/javascript">
+                        $(function () {
+                            //为上面的两个按钮绑定事件
+                            $("#toRight").click(function () {
+                                //获得左侧下拉框所有选中的数据
+                                var hasSelect = $("#noassociationSelect option:selected");
+                                //将选中的数据追加到右侧下拉框
+                                $("#associationSelect").append(hasSelect);
+                            });
+                            $("#toLeft").click(function () {
+                                //获得右侧下拉框所有选中的数据
+                                var hasSelect = $("#associationSelect option:selected");
+                                //将选中的数据追加到左侧下拉框
+                                $("#noassociationSelect").append(hasSelect);
+                            });
+                        });
+
+                        //为关联客户按钮绑定事件，提交表单
+                        $("#associationBtn").click(function () {
+                            //在提交表单之前,需要选中右侧下拉框中所有的客户数据,只有选中的才可以提交
+                            $("#associationSelect option").attr("selected", "selected");
+                            //在提交表单之前,需要为隐藏域id赋值-->当前选中的定区id
+                            $("#customerFixedAreaId").val($("#grid").datagrid("getSelections")[0].id);
+                            $("#customerForm").submit();
+                        });
+                    </script>
+
                 </tr>
             </table>
         </form>
