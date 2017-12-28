@@ -109,10 +109,18 @@ public class CourierAction extends CommonAction<Courier> {
         return NONE;
     }
 
-        //批量删除
-        @Action(value = "courierAction_deleteBatch", results = {@Result(name = "success", type = "redirect", location = "/pages/base/courier.jsp")})
-        public String deleteBatch () throws Exception {
-            courierService.deleteBatch(ids);
-            return SUCCESS;
-        }
+    //批量删除
+    @Action(value = "courierAction_deleteBatch", results = {@Result(name = "success", type = "redirect", location = "/pages/base/courier.jsp")})
+    public String deleteBatch() throws Exception {
+        courierService.deleteBatch(ids);
+        return SUCCESS;
     }
+
+    //查询所有未删除的快递员
+    @Action(value = "courierAction_listajax")
+    public String listajax() throws Exception {
+        List<Courier> list = courierService.listajax();
+        list2json(list, new String[]{"fixedAreas"});
+        return NONE;
+    }
+}

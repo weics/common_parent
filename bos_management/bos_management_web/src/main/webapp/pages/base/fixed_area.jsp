@@ -58,7 +58,7 @@
                     }
                 });
 
-                //获取当前选中顶驱的id
+                //获取当前选中定区的id
                 var fixedAreaId = rows[0].id;
 
                 //发送一个ajax请求,请求后台系统的一个Action,在这个Action中通过CXF框架调用CRM服务获得客户数据,将获得客户数据转为json响应的页面
@@ -472,8 +472,7 @@
      collapsible="false" closed="true" minimizable="false" maximizable="false"
      style="top:20px;left:200px;width: 700px;height: 300px;">
     <div style="overflow:auto;padding:5px;" border="false">
-        <form id="courierForm"
-              action="../../fixedAreaAction_associationCourierToFixedArea.action" method="post">
+        <form id="courierForm" action="${pageContext.request.contextPath}/fixedAreaAction_associationCourierToFixedArea.action" method="post">
             <table class="table-edit" width="80%" align="center">
                 <tr class="title">
                     <td colspan="2">关联快递员</td>
@@ -483,18 +482,17 @@
                     <td>
                         <!-- 存放定区编号 -->
                         <input type="hidden" name="id" id="courierFixedAreaId"/>
-                        <input data-options="ditable:false, url:'../../courierAction_listajax.action',valueField:'id',textField:'name'"
+                        <input id="courierId"
+                               data-options="ditable:false, url:'${pageContext.request.contextPath}/courierAction_listajax.action',valueField:'id',textField:'name'"
                                type="text" name="courierId" class="easyui-combobox" required="true"/>
                     </td>
                 </tr>
                 <tr>
                     <td>选择收派时间</td>
                     <td>
-                        <select required="true" class="easyui-combobox" name="takeTimeId">
-                            <option>请选择</option>
-                            <option value="1">北京早班</option>
-                            <option value="2">北京晚班</option>
-                        </select>
+                        <input id="takeTimeId"
+                               data-options="ditable:false, url:'${pageContext.request.contextPath}/takeTimeAction_listajax.action',valueField:'id',textField:'name'"
+                               type="text" name="takeTimeId" class="easyui-combobox" required="true"/>
                         <!-- <input type="text" name="takeTimeId" class="easyui-combobox" required="true" /> -->
                     </td>
                 </tr>
@@ -502,6 +500,13 @@
                     <td colspan="3">
                         <a id="associationCourierBtn" href="#" class="easyui-linkbutton"
                            data-options="iconCls:'icon-save'">关联快递员</a>
+                        <script type="text/javascript">
+                            $("#associationCourierBtn").click(function () {
+                                //为隐藏域赋值
+                                $("#courierFixedAreaId").val($("#grid").datagrid("getSelections")[0].id);
+                                $("#courierForm").submit();
+                            });
+                        </script>
                     </td>
                 </tr>
             </table>

@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.List;
+
 public interface CourierService {
     void save(Courier model);
 
@@ -13,4 +15,6 @@ public interface CourierService {
     void deleteBatch(String ids);
 
     Page<Courier> pageQuery(Specification<Courier> spe, Pageable pageable);
+
+    List<Courier> listajax();
 }

@@ -81,5 +81,34 @@ public class FixedAreaAction extends CommonAction<FixedArea> {
         return SUCCESS;
     }
 
+    /**
+     * id	001
+     * courierId	41
+     * takeTimeId	2
+     *
+     * @return
+     * @throws Exception
+     */
+
+    private Integer courierId;
+
+    public void setCourierId(Integer courierId) {
+        this.courierId = courierId;
+    }
+
+    private Integer takeTimeId;
+
+    public void setTakeTimeId(Integer takeTimeId) {
+        this.takeTimeId = takeTimeId;
+    }
+
+    //定区关联快递员
+    @Action(value = "fixedAreaAction_associationCourierToFixedArea", results = {@Result(name = "success", type = "redirect", location = "/pages/base/fixed_area.jsp")})
+    public String associationCourierToFixedArea() throws Exception {
+        String fixedAreaId = getModel().getId();
+        fixedAreaService.associationCourierToFixedArea(fixedAreaId, courierId,takeTimeId);
+        return SUCCESS;
+    }
+
 
 }

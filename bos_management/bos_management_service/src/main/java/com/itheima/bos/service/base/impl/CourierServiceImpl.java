@@ -11,9 +11,11 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
-public class CourierServiceImpl implements CourierService{
+public class CourierServiceImpl implements CourierService {
     @Autowired
     private CourierDao courierDao;
 
@@ -43,6 +45,11 @@ public class CourierServiceImpl implements CourierService{
     //快递员分页查询,有条件
     @Override
     public Page<Courier> pageQuery(Specification<Courier> spe, Pageable pageable) {
-        return courierDao.findAll(spe,pageable);
+        return courierDao.findAll(spe, pageable);
+    }
+
+    //查询所有未删除的快递员
+    public List<Courier> listajax() {
+        return courierDao.findByDeltag('0');
     }
 }
