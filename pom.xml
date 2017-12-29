@@ -10,6 +10,7 @@
     <modules>
         <module>bos_management</module>
         <module>crm</module>
+        <module>bos_fore</module>
     </modules>
     <packaging>pom</packaging>
     <description>父工程,统一管理依赖</description>
@@ -249,6 +250,19 @@
             <artifactId>json-lib</artifactId>
             <version>2.4</version>
         </dependency>
+
+        <!--阿里云短信依赖-->
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+            <version>3.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.aliyuncs.dysmsapi</groupId>
+            <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/com.belerweb/pinyin4j -->
         <dependency>
             <groupId>com.belerweb</groupId>
