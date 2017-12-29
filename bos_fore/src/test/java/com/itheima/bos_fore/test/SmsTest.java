@@ -1,6 +1,8 @@
 package com.itheima.bos_fore.test;
 
 
+import com.aliyuncs.exceptions.ClientException;
+import com.itheima.bos_fore.utils.SMSUtils;
 import org.junit.Test;
 
 public class SmsTest {
