@@ -9,7 +9,7 @@ public class SmsTest {
 	@Test
 	public void test1(){
 		try {
-			SMSUtils.sendValidateCode("15833331095", "1234");
+			SMSUtils.sendValidateCode("18600715065", "1234");
 		} catch (ClientException e) {
 			e.printStackTrace();
 		}
