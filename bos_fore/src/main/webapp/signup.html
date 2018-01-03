@@ -66,6 +66,8 @@
                                         var v = reg.test(telephone);
                                         if (!v) {
                                             //输入的手机号不合法,弹出提示
+                                            alert("请输入合法的手机号!")
+                                            return;
                                         }
 
                                         btn = thisBtn;
@@ -74,9 +76,7 @@
                                         clock = setInterval(doLoop, 1000); //一秒执行一次
 
                                         //发送ajax请求,请求前台系统的Action,提交手机号
-                                        $.post("customerAction_sendValidateCode.action", {
-                                            telephone: telephone
-                                        }, function (data) {
+                                        $.post("customerAction_sendValidateCode.action", {telephone: telephone}, function (data) {
 
                                         });
                                     }
