@@ -8,6 +8,7 @@ import com.itheima.crm.cxf.CustomerService;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
@@ -96,7 +97,7 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
                 redisTemplate.opsForValue().set(model.getTelephone(), activeCode, 24, TimeUnit.HOURS);
                 String subject = "速运快递激活邮件";
                 String content = "尊敬的用户你好，欢迎注册成为速运快递会员，请于24小时内点击下面链接完成邮件激活。"
-						+ "<br><a href='"+MailUtils.activeUrl+"?activeCode="+activeCode+"&telephone="+model.getTelephone()+"'>点此激活</a>";
+                        + "<br><a href='" + MailUtils.activeUrl + "?activeCode=" + activeCode + "&telephone=" + model.getTelephone() + "'>点此激活</a>";
                 String to = model.getEmail();
                 MailUtils.sendMail(subject, content, to);
             } catch (Exception e) {
@@ -136,6 +137,39 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
             //调用CRM服务完成激活
             crmClientProxy.activeMail(telephone);
             result = SUCCESS;
+        }
+        return result;
+    }
+
+    //登录
+    @Action(
+            value = "customerAction_login",
+            results = {
+                    @Result(name = "login", type = "redirect", location = "/login.html"),
+                    @Result(name = "index", type = "redirect", location = "/index.html")
+            }
+    )
+    public String login() throws Exception {
+        String result = null;
+        //获取Session中保存的验证码
+        String validateCode = (String) ServletActionContext.getRequest().getSession().getAttribute("validateCode");
+        //判断用户提交的验证码是否正确
+        if (StringUtils.isNotBlank(checkcode) && StringUtils.isNotBlank(validateCode) && checkcode.equals(validateCode)) {
+            //验证码输入正确
+            //调用CRM服务实现登录
+            Customer customer = crmClientProxy.login(model.getTelephone(), MD5Utils.md5(model.getPassword()));
+            if (customer != null) {
+                //登录成功
+                //将customer放入session
+                ServletActionContext.getRequest().getSession().setAttribute("currentUser", customer);
+                result = "index";
+            } else {
+                //登录失败
+                result = LOGIN;
+            }
+        } else {
+            //验证码错误
+            result = LOGIN;
         }
         return result;
     }

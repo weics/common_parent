@@ -28,7 +28,7 @@
 				<div class="container">
 					<div class="col-md-4 col-md-offset-7 loginbox">
 						<h4>用户登录</h4>
-						<form class="form-horizontal" id="loginForm">
+						<form class="form-horizontal" id="loginForm" action="customerAction_login.action" method="post">
 							<div id="format1">
 								<div class="form-group">
 									<label for="inputaccount" class="col-sm-3 control-label">手机号</label>
@@ -51,6 +51,13 @@
 									</div>
 									<div class="col-sm-3">
 										<img id="vcode"src="validatecode.jsp">
+										<script type="text/javascript">
+                                            $(function () {
+                                                $("#vcode").click(function () {
+                                                    document.getElementById("vcode").src = "validatecode.jsp?" + new Date();
+                                                });
+                                            });
+										</script>
 									</div>
 								</div>
 								<div class="form-group">

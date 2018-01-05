@@ -56,4 +56,9 @@ public class CustomerServiceImpl implements CustomerService {
     public void activeMail(String telephone) {
         dao.activeMail(telephone);
     }
+
+    //登录
+    public Customer login(String telephone, String password) {
+        return dao.findByTelephoneAndPassword(telephone, password);
+    }
 }

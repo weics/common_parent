@@ -27,4 +27,6 @@ public interface CustomerDao extends JpaRepository<Customer, Integer> {
     @Query("update Customer set type=1 where telephone=?")
     @Modifying
     void activeMail(String telephone);
+
+    Customer findByTelephoneAndPassword(String telephone, String password);
 }

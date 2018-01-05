@@ -26,4 +26,7 @@ public interface CustomerService {
 
     //客户激活邮件
     void activeMail(String telephone);
+
+    //登录
+    public Customer login(String telephone, String password);
 }
