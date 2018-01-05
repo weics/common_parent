@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>百度只能搜索框</title>
+    <script src="plugins/jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript"
+            src="http://api.map.baidu.com/api?v=2.0&ak=4IU3oIAMpZhfWZsMu7xzqBBAf6vMHcoa">
+    </script>
+</head>
+<body>
+<div class="form-group">
+    <label for="inputPassword" class="col-sm-3 control-label"><b>*</b>详细地址：</label>
+    <div class="col-sm-8">
+        <input name="sendAddress" id="sendAddress" type="text" class="form-control"
+               placeholder="街道详细（精确到门牌号） " required="required">
+        <script type="text/javascript">
+            $(function(){
+                var ac = new BMap.Autocomplete({
+                    input:"sendAddress"
+                });
+            });
+        </script>
+        <p class="error">
+            请填写正确的信息
+        </p>
+    </div>
+</div>
+</body>
+</html>
