@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>省市区三级联动</title>
+
+    <!-- 引入相关资源文件 -->
+    <link rel="stylesheet" type="text/css" href="plugins/city-picker.css">
+    <script src="plugins/jquery.min.js"></script>
+    <script src="plugins/city-picker.data.js" type="text/javascript"></script>
+    <script src="plugins/city-picker.js" type="text/javascript"></script>
+
+</head>
+<body>
+<h2>html</h2>
+<div style="position: relative;">
+    <input type="text" readonly="readonly" data-toggle="city-picker" placeholder="选择省/市/区"/>
+</div>
+
+<h2>js</h2>
+<div style="position: relative;">
+    <input id="province" type="text" readonly="readonly" data-toggle="city-picker" placeholder="选择省/市/区"/>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("#province").citypicker();
+    });
+</script>
+</body>
+</html>
