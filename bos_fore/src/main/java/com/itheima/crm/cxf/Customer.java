@@ -72,7 +72,7 @@ public class Customer {
     protected String position;
     protected Integer sex;
     protected String telephone;
-    protected Integer type;
+    protected Integer type=0;
     protected String username;
 
     /**

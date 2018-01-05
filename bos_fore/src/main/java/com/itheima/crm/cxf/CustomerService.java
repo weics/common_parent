@@ -76,4 +76,6 @@ public interface CustomerService {
     public Customer findByTelephone(String telephone);
     
     public void regist(Customer customer);
+
+    public void activeMail(String telephone);
 }

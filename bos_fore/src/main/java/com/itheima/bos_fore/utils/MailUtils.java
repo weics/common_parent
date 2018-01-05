@@ -15,7 +15,7 @@ public class MailUtils {
 	private static String password = "04123833448";
 
 	private static String from = "b5jem93iyilian@163.com"; // 使用当前账户
-	public static String activeUrl = "http://localhost:8084/bos_fore/customerAction_activeMail";
+	public static String activeUrl = "http://localhost:8084/customerAction_activeMail";
 
 	/**
 	 * 

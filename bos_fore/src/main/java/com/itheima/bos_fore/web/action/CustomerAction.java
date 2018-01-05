@@ -1,6 +1,7 @@
 package com.itheima.bos_fore.web.action;
 
 import com.itheima.bos_fore.utils.MD5Utils;
+import com.itheima.bos_fore.utils.MailUtils;
 import com.itheima.bos_fore.utils.SMSUtils;
 import com.itheima.crm.cxf.Customer;
 import com.itheima.crm.cxf.CustomerService;
@@ -14,7 +15,11 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
+
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Namespace(value = "/")
 @ParentPackage(value = "struts-default")
@@ -63,8 +68,17 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
         return NONE;
     }
 
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+
     //用户注册
-    @Action(value = "customerAction_regist", results = {@Result(name = "success", type = "redirect", location = "/login.html"), @Result(name = "fail", type = "redirect", location = "/signup-fail.html")})
+    @Action(
+            value = "customerAction_regist",
+            results = {
+                    @Result(name = "success", type = "redirect", location = "/login.html"),
+                    @Result(name = "fail", type = "redirect", location = "/signup-fail.html")
+            }
+    )
     public String regist() throws Exception {
         String result = SUCCESS;
 
@@ -74,12 +88,54 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
             //验证码输入正确,调用crm服务注册用户
             model.setPassword(MD5Utils.md5(model.getPassword()));
             try {
+                //调用CRM服务保存用户信息
                 crmClientProxy.regist(model);
+                //生成激活码
+                String activeCode = UUID.randomUUID().toString();
+                //将激活码保存的redis,保存24消失
+                redisTemplate.opsForValue().set(model.getTelephone(), activeCode, 24, TimeUnit.HOURS);
+                String subject = "速运快递激活邮件";
+                String content = "尊敬的用户你好，欢迎注册成为速运快递会员，请于24小时内点击下面链接完成邮件激活。"
+						+ "<br><a href='"+MailUtils.activeUrl+"?activeCode="+activeCode+"&telephone="+model.getTelephone()+"'>点此激活</a>";
+                String to = model.getEmail();
+                MailUtils.sendMail(subject, content, to);
             } catch (Exception e) {
                 //验证码输入错误,跳转到注册失败页面
                 result = "fail";
                 e.printStackTrace();
             }
+        }
+        return result;
+    }
+
+    //激活邮件
+    @Action(
+            value = "customerAction_activeMail",
+            results = {
+                    @Result(name = "success", type = "redirect", location = "/activeMail-success.html"),
+                    @Result(name = "fail", type = "redirect", location = "/activeMail-fail.html")
+            }
+    )
+    public String activeMail() throws Exception {
+        String result = null;
+        String telephone = model.getTelephone();
+        //校验用户提交的激活码是否正确
+        //从redis中获取提前保存的激活码
+        String redisCode = (String) redisTemplate.opsForValue().get(telephone);
+        //判断用户是否存在重复激活
+        Customer customer = crmClientProxy.findByTelephone(telephone);
+        if (redisCode == null) {
+            //有可能是超时,导致激活码清除掉
+            //有可能是用户伪造的请求
+            //跳转到激活失败提示页面
+            result = "fail";
+        } else if (customer.getType() == 1) {
+            //已经激活了
+            result = "fail";
+        } else {
+            //调用CRM服务完成激活
+            crmClientProxy.activeMail(telephone);
+            result = SUCCESS;
         }
         return result;
     }

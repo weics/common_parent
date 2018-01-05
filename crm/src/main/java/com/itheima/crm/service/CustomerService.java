@@ -23,4 +23,7 @@ public interface CustomerService {
 
     //保存客户
     void regist(Customer customer);
+
+    //客户激活邮件
+    void activeMail(String telephone);
 }

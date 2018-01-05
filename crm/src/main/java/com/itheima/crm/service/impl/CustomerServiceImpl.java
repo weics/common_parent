@@ -51,4 +51,9 @@ public class CustomerServiceImpl implements CustomerService {
     public void regist(Customer customer) {
         dao.save(customer);
     }
+
+    //客户邮件激活
+    public void activeMail(String telephone) {
+        dao.activeMail(telephone);
+    }
 }
