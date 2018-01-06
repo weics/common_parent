@@ -5,7 +5,6 @@ import com.itheima.bos.domain.take_delivery.Order;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
-import javax.naming.spi.ObjectFactory;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
@@ -17,7 +16,7 @@ import javax.xml.ws.ResponseWrapper;
  * 
  */
 @WebService(targetNamespace = "http://take_delivery.service.bos.itheima.com/", name = "OrderService")
-@XmlSeeAlso({ObjectFactory.class})
+@XmlSeeAlso({})
 public interface OrderService {
 
     @RequestWrapper(localName = "autoOrder", targetNamespace = "http://take_delivery.service.bos.itheima.com/", className = "com.itheima.bos.service.take_delivery.AutoOrder")

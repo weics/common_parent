@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 public interface AreaDao extends JpaRepository<Area,String>{
 
+    Area findByProvinceAndCityAndDistrict(String province, String city, String district);
 }

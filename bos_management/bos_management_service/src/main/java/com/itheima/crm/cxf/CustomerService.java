@@ -51,4 +51,5 @@ public interface CustomerService {
     @WebMethod
     @ResponseWrapper(localName = "findAllResponse", targetNamespace = "http://service.crm.itheima.com/", className = "com.itheima.crm.cxf.FindAllResponse")
     public List<Customer> findAll();
+    public String findFixedAreaIdByAddress(String address);
 }

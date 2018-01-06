@@ -21,7 +21,6 @@ import org.springframework.stereotype.Controller;
 public class OrderAction extends ActionSupport implements ModelDriven<Order> {
     private Order model = new Order();
 
-    @Override
     public Order getModel() {
         return model;
     }
@@ -43,7 +42,7 @@ public class OrderAction extends ActionSupport implements ModelDriven<Order> {
     private OrderService orderClientProxy;
 
     //提交订单
-    @Action(value = "orderAction_add", results = {@Result(name = "sucess", type = "redirect", location = "/order-success.html")})
+    @Action(value = "orderAction_add", results = {@Result(name = "success", type = "redirect", location = "/order-success.html")})
     public String add() throws Exception {
         if (StringUtils.isNotBlank(sendAreaInfo)) {
             String[] info1 = sendAreaInfo.split("/");
@@ -64,6 +63,7 @@ public class OrderAction extends ActionSupport implements ModelDriven<Order> {
         }
 
         //通过WebService调用后台订单服务
+        orderClientProxy.autoOrder(model);
 
         return SUCCESS;
     }

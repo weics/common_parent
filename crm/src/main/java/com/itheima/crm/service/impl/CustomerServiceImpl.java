@@ -61,4 +61,9 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer login(String telephone, String password) {
         return dao.findByTelephoneAndPassword(telephone, password);
     }
+
+    //根据客户地址查询定区
+    public String findFixedAreaIdByAddress(String address) {
+        return dao.findFixedAreaIdByAddress(address);
+    }
 }

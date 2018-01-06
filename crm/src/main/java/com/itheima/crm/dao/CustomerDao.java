@@ -29,4 +29,7 @@ public interface CustomerDao extends JpaRepository<Customer, Integer> {
     void activeMail(String telephone);
 
     Customer findByTelephoneAndPassword(String telephone, String password);
+
+    @Query(value = "select fixedAreaId from Customer where address=?")
+    String findFixedAreaIdByAddress(String address);
 }
