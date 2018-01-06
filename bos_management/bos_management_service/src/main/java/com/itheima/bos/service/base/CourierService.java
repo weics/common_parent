@@ -17,4 +17,6 @@ public interface CourierService {
     Page<Courier> pageQuery(Specification<Courier> spe, Pageable pageable);
 
     List<Courier> listajax();
+
+    void recoverBatch(String ids);
 }

@@ -28,7 +28,7 @@
         function doDelete() {
             //获得所有选中的行
             var rows = $("#grid").datagrid("getSelections");
-            if (rows == 0) {
+            if (rows.length == 0) {
                 //提示信息
                 $.messager.alert("提示信息", "请选择要删除的数据", "warning");
             } else {
@@ -50,7 +50,20 @@
         }
 
         function doRestore() {
-            alert("将取派员还原...");
+            //获得所有选中行
+            var rows = $("#grid").datagrid("getSelections");
+            //判断选中行是否为空
+            if (rows.length==0) {
+                $.messager.alert("提示信息", "请选要还原的数据!", "warning");
+            } else {
+                //取出所选快递员id
+                var array = new Array();
+                for (var i = 0; i < rows.length; i++) {
+                    array.push(rows[i].id);
+                }
+                var ids = array.join(",");
+                window.location.href = "${pageContext.request.contextPath}/courierAction_recoverBatch.action?ids=" + ids;
+            }
         }
 
         //工具栏

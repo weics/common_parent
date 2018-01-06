@@ -26,7 +26,7 @@ import java.util.List;
 @Scope(value = "prototype")
 public class CourierAction extends CommonAction<Courier> {
 
-    //批量删除时接收页面传入的id
+    //批量删除/还原时接收页面传入的id
     private String ids;
 
     public void setIds(String ids) {
@@ -123,4 +123,12 @@ public class CourierAction extends CommonAction<Courier> {
         list2json(list, new String[]{"fixedAreas"});
         return NONE;
     }
+
+    //批量还原
+    @Action(value = "courierAction_recoverBatch", results = {@Result(name = "success", type = "redirect", location = "/pages/base/courier.jsp")})
+    public String recoverBatch() throws Exception {
+        courierService.recoverBatch(ids);
+        return SUCCESS;
+    }
+
 }

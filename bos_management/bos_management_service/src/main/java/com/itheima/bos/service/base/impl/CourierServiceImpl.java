@@ -52,4 +52,14 @@ public class CourierServiceImpl implements CourierService {
     public List<Courier> listajax() {
         return courierDao.findByDeltag('0');
     }
+
+    //批量还原快递员
+    public void recoverBatch(String ids) {
+        if (StringUtils.isNotBlank(ids)) {
+            String[] cIds = ids.split(",");
+            for (String cId : cIds) {
+                courierDao.recoverById(Integer.parseInt(cId));
+            }
+        }
+    }
 }

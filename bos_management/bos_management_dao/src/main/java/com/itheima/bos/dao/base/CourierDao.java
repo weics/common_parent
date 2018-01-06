@@ -21,4 +21,8 @@ public interface CourierDao extends JpaRepository<Courier, Integer>, JpaSpecific
      * @return
      */
     List<Courier> findByDeltag(Character deltag);
+
+    @Query(value = "update Courier set deltag='0' where id=?")
+    @Modifying
+    void recoverById(int cId);
 }
