@@ -62,4 +62,9 @@ public class CourierServiceImpl implements CourierService {
             }
         }
     }
+
+    //根据id查询快递员
+    public Courier findById(String courierId) {
+        return courierDao.findById(Integer.parseInt(courierId));
+    }
 }

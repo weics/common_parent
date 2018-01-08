@@ -14,13 +14,13 @@ import com.itheima.bos.service.take_delivery.OrderService;
 import com.itheima.crm.cxf.CustomerService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @Transactional
@@ -43,7 +43,7 @@ public class OrderServiceImpl implements OrderService {
 
     //自动分单
     public void autoOrder(Order order) {
-        System.out.println("后台系统自动分单逻辑...");
+        //System.out.println("后台系统自动分单逻辑...");
         order.setOrderTime(new Date());
         order.setOrderNum(UUID.randomUUID().toString());
 
@@ -134,4 +134,10 @@ public class OrderServiceImpl implements OrderService {
 
         //两种方式都没有完成自动分单,需要设置分单类型为:人工分单
     }
+
+    //查询人工调度订单
+//    public Page<Order> pageQuery(Specification<Order> spe, Pageable pageable) {
+//        return orderDao.findAll(spe, pageable);
+//    }
+
 }

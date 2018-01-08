@@ -19,4 +19,6 @@ public interface CourierService {
     List<Courier> listajax();
 
     void recoverBatch(String ids);
+
+    Courier findById(String courierId);
 }
