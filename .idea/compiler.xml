@@ -14,6 +14,7 @@
         <module name="bos_management_utils" />
         <module name="bos_management_web" />
         <module name="crm" />
+        <module name="producer" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -27,6 +28,7 @@
       <module name="bos_management_web" target="1.7" />
       <module name="common_parent" target="1.5" />
       <module name="crm" target="1.7" />
+      <module name="producer" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>
