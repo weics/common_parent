@@ -11,6 +11,7 @@
         <module>bos_management</module>
         <module>crm</module>
         <module>bos_fore</module>
+        <module>ActiveMQ_demo</module>
     </modules>
     <packaging>pom</packaging>
     <description>父工程,统一管理依赖</description>
