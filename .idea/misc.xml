@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/adfadfadfa" />
     <file type="web" url="file://$PROJECT_DIR$/bos_fore" />
     <file type="web" url="file://$PROJECT_DIR$/bos_management/bos_management_web" />
     <file type="web" url="file://$PROJECT_DIR$/crm" />
@@ -13,8 +14,10 @@
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/adfadfadfa/pom.xml" />
         <option value="$PROJECT_DIR$/bos_management/pom.xml" />
         <option value="$PROJECT_DIR$/bos_management_service/pom.xml" />
+        <option value="$PROJECT_DIR$/consumer/pom.xml" />
       </set>
     </option>
   </component>

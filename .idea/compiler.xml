@@ -13,12 +13,14 @@
         <module name="bos_management_service" />
         <module name="bos_management_utils" />
         <module name="bos_management_web" />
+        <module name="consumer" />
         <module name="crm" />
         <module name="producer" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="ActiveMQ_demo" target="1.7" />
+      <module name="adfadfadfa" target="1.7" />
       <module name="bos_fore" target="1.7" />
       <module name="bos_management" target="1.5" />
       <module name="bos_management_dao" target="1.7" />
@@ -27,6 +29,7 @@
       <module name="bos_management_utils" target="1.7" />
       <module name="bos_management_web" target="1.7" />
       <module name="common_parent" target="1.5" />
+      <module name="consumer" target="1.7" />
       <module name="crm" target="1.7" />
       <module name="producer" target="1.7" />
     </bytecodeTargetLevel>
