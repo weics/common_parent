@@ -56,7 +56,7 @@
     </bean>
 
     <!-- 组件扫描 @Server @Controller @Repository -->
-    <context:component-scan base-package="com.itheima.bos.service,com.itheima.bos.web"/>
+    <context:component-scan base-package="com.itheima.bos"/>
 
     <!-- 事务注解支持 -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
@@ -74,4 +74,43 @@
             <ref bean="orderServiceImpl"/>
         </jaxws:serviceBean>
     </jaxws:server>
+
+    <!-- shiro的过滤器工厂，通过这个工厂可以创建一些过滤器，这些过滤器可以进行权限校验 -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <!-- 注入登录页面访问URL -->
+        <property name="loginUrl" value="/login.jsp"/>
+        <!-- 注入登录成功后跳转的页面访问URL -->
+        <property name="successUrl" value="/index.jsp"/>
+        <!-- 注入权限不足访问URL -->
+        <property name="unauthorizedUrl" value="/unauthorized.jsp"/>
+        <!-- 注入安全管理器对象 -->
+        <property name="securityManager" ref="securityManager"/>
+        <!-- 注入URL权限访问控制拦截规则 -->
+        <property name="filterChainDefinitions">
+            <!--
+                authc:是shiro框架提供的的一个过滤器的别名，用于判断当前用户是否已经完成认证。
+                        如果完成了认证放行，如果没有完成认证，跳转到登录页面
+                anon:是shiro框架提供的一个过滤器的别名，经过这个过滤器表示当前访问URL可以匿名访问
+             -->
+            <value>
+                /login.jsp = anon
+                /images/** = anon
+                /js/** = anon
+                /css/** = anon
+                /validatecode.jsp* = anon
+                /userAction_login.action = anon
+                /pages/base/area.jsp = perms['area']
+                /** = authc
+            </value>
+        </property>
+    </bean>
+
+    <!-- 注册安全管理器 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="bosRealm"/>
+    </bean>
+
+    <!-- 注册自定义realm -->
+    <bean id="bosRealm" class="com.itheima.bos.service.system.BosRealm"></bean>
+
 </beans>
