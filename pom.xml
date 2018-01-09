@@ -12,8 +12,7 @@
         <module>crm</module>
         <module>bos_fore</module>
         <module>ActiveMQ_demo</module>
-        <module>producer</module>
-        <module>consumer</module>
+        <module>bos_sms</module>
     </modules>
     <packaging>pom</packaging>
     <description>父工程,统一管理依赖</description>

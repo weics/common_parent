@@ -17,7 +17,9 @@
         <option value="$PROJECT_DIR$/adfadfadfa/pom.xml" />
         <option value="$PROJECT_DIR$/bos_management/pom.xml" />
         <option value="$PROJECT_DIR$/bos_management_service/pom.xml" />
+        <option value="$PROJECT_DIR$/bos_sms/pom.xml" />
         <option value="$PROJECT_DIR$/consumer/pom.xml" />
+        <option value="$PROJECT_DIR$/producer/pom.xml" />
       </set>
     </option>
   </component>

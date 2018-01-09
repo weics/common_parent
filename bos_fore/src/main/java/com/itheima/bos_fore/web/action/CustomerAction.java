@@ -2,7 +2,6 @@ package com.itheima.bos_fore.web.action;
 
 import com.itheima.bos_fore.utils.MD5Utils;
 import com.itheima.bos_fore.utils.MailUtils;
-import com.itheima.bos_fore.utils.SMSUtils;
 import com.itheima.crm.cxf.Customer;
 import com.itheima.crm.cxf.CustomerService;
 import com.opensymphony.xwork2.ActionSupport;
@@ -15,10 +14,17 @@ import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Controller;
 
+import javax.jms.JMSException;
+import javax.jms.MapMessage;
+import javax.jms.Message;
+import javax.jms.Session;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -28,15 +34,20 @@ import java.util.concurrent.TimeUnit;
 @Scope(value = "prototype")
 public class CustomerAction extends ActionSupport implements ModelDriven<Customer> {
     private Customer model = new Customer();
+
+    public Customer getModel() {
+        return model;
+    }
+
+    @Autowired
+    @Qualifier(value = "jmsQueueTemplate")
+    private JmsTemplate jmsTemplate;
+
+    //属性驱动
     private String checkcode;
 
     public void setCheckcode(String checkcode) {
         this.checkcode = checkcode;
-    }
-
-    @Override
-    public Customer getModel() {
-        return model;
     }
 
     //注入crm客户端代理对象
@@ -46,7 +57,7 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
     //为注册用户发送短信验证码
     @Action(value = "customerAction_sendValidateCode")
     public String sendValidateCode() throws Exception {
-        String telephone = model.getTelephone();
+        final String telephone = model.getTelephone();
         Customer customer = crmClientProxy.findByTelephone(telephone);
 
         if (customer != null) {
@@ -55,16 +66,26 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
             ServletActionContext.getResponse().getWriter().write("1");
         } else {
             //说明手机号没有注册过,可以发送验证码
-            String validateCode = RandomStringUtils.randomNumeric(6);//随机生成6位数验证码
+            final String validateCode = RandomStringUtils.randomNumeric(6);//随机生成6位数验证码
             //将生成的验证码放入Session
             ServletActionContext.getRequest().getSession().setAttribute(telephone, validateCode);
 
-            //通过云通信短信服务,发送验证码
-            try {
+            //通过云通信短信服务,发送验证码,通过下面的消息队列发送验证码
+            /*try {
                 SMSUtils.sendValidateCode(telephone, validateCode);
             } catch (Exception e) {
                 e.printStackTrace();
-            }
+            }*/
+
+            //向指定的队列中发送消息
+            jmsTemplate.send("sms_queue", new MessageCreator() {
+                public Message createMessage(Session session) throws JMSException {
+                    MapMessage mapMessage = session.createMapMessage();
+                    mapMessage.setString("telephone", telephone);
+                    mapMessage.setString("validateCode", validateCode);
+                    return mapMessage;
+                }
+            });
         }
         return NONE;
     }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jms="http://www.springframework.org/schema/jms"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd">
 
     <!-- ActiveMQ 连接工厂 -->
     <!-- 真正可以产生Connection的ConnectionFactory，由对应的 JMS服务厂商提供-->
@@ -23,21 +23,12 @@
         <property name="sessionCacheSize" value="100"/>
     </bean>
 
-    <!-- Spring JmsTemplate 的消息生产者 start-->
+    <bean id="myListener" class="com.itheima.mq.consumer.MyMessageListener"></bean>
 
-    <!-- 定义JmsTemplate的Queue类型 -->
-    <bean id="jmsQueueTemplate" class="org.springframework.jms.core.JmsTemplate">
-        <!-- 这个connectionFactory对应的是我们定义的Spring提供的那个ConnectionFactory对象 -->
-        <constructor-arg ref="connectionFactory"/>
-        <!-- 非pub/sub模型（发布/订阅），即队列模式 -->
-        <property name="pubSubDomain" value="false"/>
-    </bean>
+    <!--注册消息监听器-->
+    <jms:listener-container destination-type="queue" container-type="default" connection-factory="connectionFactory"
+                            acknowledge="auto">
+        <jms:listener destination="sms_queue" ref="myListener"/>
+    </jms:listener-container>
 
-    <!-- 定义JmsTemplate的Topic类型 -->
-    <bean id="jmsTopicTemplate" class="org.springframework.jms.core.JmsTemplate">
-        <!-- 这个connectionFactory对应的是我们定义的Spring提供的那个ConnectionFactory对象 -->
-        <constructor-arg ref="connectionFactory"/>
-        <!-- pub/sub模型（发布/订阅） -->
-        <property name="pubSubDomain" value="true"/>
-    </bean>
 </beans>
