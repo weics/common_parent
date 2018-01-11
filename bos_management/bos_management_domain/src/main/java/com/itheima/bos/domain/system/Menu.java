@@ -1,111 +1,112 @@
 package com.itheima.bos.domain.system;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 /**
  * @description:菜单
  */
 @Entity
 @Table(name = "T_MENU")
-public class Menu implements Serializable{
-	@Id
-	@GeneratedValue
-	@Column(name = "C_ID")
-	private Integer id;
-	@Column(name = "C_NAME")
-	private String name; // 菜单名称
-	@Column(name = "C_PAGE")
-	private String page; // 访问路径
-	@Column(name = "C_PRIORITY")
-	private Integer priority; // 优先级
-	@Column(name = "C_DESCRIPTION")
-	private String description; // 描述
+public class Menu implements Serializable {
+    @Id
+    @GeneratedValue
+    @Column(name = "C_ID")
+    private Integer id;
+    @Column(name = "C_NAME")
+    private String name; // 菜单名称
+    @Column(name = "C_PAGE")
+    private String page; // 访问路径
+    @Column(name = "C_PRIORITY")
+    private Integer priority; // 优先级
+    @Column(name = "C_DESCRIPTION")
+    private String description; // 描述
 
-	@ManyToMany(mappedBy = "menus")
-	private Set<Role> roles = new HashSet<Role>(0);
+    @ManyToMany(mappedBy = "menus")
+    private Set<Role> roles = new HashSet<Role>(0);
 
-	@OneToMany(mappedBy = "parentMenu")
-	private Set<Menu> childrenMenus = new HashSet<Menu>();
+    //fetch = FetchType.EAGER 设置set集合为立即加载
+    @OneToMany(mappedBy = "parentMenu", fetch = FetchType.EAGER)
+    private Set<Menu> childrenMenus = new HashSet<Menu>();
 
-	@ManyToOne
-	@JoinColumn(name = "C_PID")
-	private Menu parentMenu;
-	
-	public Integer getId() {
-		return id;
-	}
+    @ManyToOne
+    @JoinColumn(name = "C_PID")
+    private Menu parentMenu;
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    //在Menu实体类中提供方法(为了给combotree准备数据)
+    public Set<Menu> getChildren() {
+        return childrenMenus;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getText() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
 
-	public String getPage() {
-		return page;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setPage(String page) {
-		this.page = page;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public Integer getPriority() {
-		return priority;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setPriority(Integer priority) {
-		this.priority = priority;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getPage() {
+        return page;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setPage(String page) {
+        this.page = page;
+    }
 
-	public Set<Role> getRoles() {
-		return roles;
-	}
+    public Integer getPriority() {
+        return priority;
+    }
 
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
+    public void setPriority(Integer priority) {
+        this.priority = priority;
+    }
 
-	public Set<Menu> getChildrenMenus() {
-		return childrenMenus;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setChildrenMenus(Set<Menu> childrenMenus) {
-		this.childrenMenus = childrenMenus;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public Menu getParentMenu() {
-		return parentMenu;
-	}
+    public Set<Role> getRoles() {
+        return roles;
+    }
 
-	public void setParentMenu(Menu parentMenu) {
-		this.parentMenu = parentMenu;
-	}
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public Set<Menu> getChildrenMenus() {
+        return childrenMenus;
+    }
+
+    public void setChildrenMenus(Set<Menu> childrenMenus) {
+        this.childrenMenus = childrenMenus;
+    }
+
+    public Menu getParentMenu() {
+        return parentMenu;
+    }
+
+    public void setParentMenu(Menu parentMenu) {
+        this.parentMenu = parentMenu;
+    }
 
 }
