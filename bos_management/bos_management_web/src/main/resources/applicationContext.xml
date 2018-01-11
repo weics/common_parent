@@ -113,4 +113,18 @@
     <!-- 注册自定义realm -->
     <bean id="bosRealm" class="com.itheima.bos.service.system.BosRealm"></bean>
 
+    <!--开启shiro注解-->
+    <bean id="defaultAdvisorAutoProxyCreator"
+          class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator">
+        <!--强制基于cglib方式创建代理对象-->
+        <property name="proxyTargetClass" value="true"/>
+    </bean>
+
+    <!--切面:通知+切点-->
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+
+    <!--事务注解支持.proxy-target-class="true":强势使用cglib代理-->
+    <tx:annotation-driven proxy-target-class="true" transaction-manager="transactionManager"/>
 </beans>

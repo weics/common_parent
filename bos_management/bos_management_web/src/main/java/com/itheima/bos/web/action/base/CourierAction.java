@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Namespace(value = "/")
-@ParentPackage(value = "struts-default")
+@ParentPackage(value = "default")
 @Controller
 @Scope(value = "prototype")
 public class CourierAction extends CommonAction<Courier> {

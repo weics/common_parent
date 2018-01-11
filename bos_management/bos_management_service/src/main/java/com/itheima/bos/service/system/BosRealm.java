@@ -4,13 +4,13 @@ import com.itheima.bos.dao.system.UserDao;
 import com.itheima.bos.domain.system.User;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 自定义的realm，负责完成认证和授权操作
- *
  */
 public class BosRealm extends AuthorizingRealm {
     @Autowired
@@ -34,8 +34,12 @@ public class BosRealm extends AuthorizingRealm {
 
     //授权
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        // TODO Auto-generated method stub
-        return null;
+        //授权信息对象,用于为当前用户进行授权
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        //为当前用户授权一个权限,关键字为area
+        info.addStringPermission("area");//area字符串标售授权的关键字
+        info.addStringPermission("subArea");
+        return info;
     }
 
 

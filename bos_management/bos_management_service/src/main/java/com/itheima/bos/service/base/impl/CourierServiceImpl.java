@@ -4,6 +4,7 @@ import com.itheima.bos.dao.base.CourierDao;
 import com.itheima.bos.domain.base.Courier;
 import com.itheima.bos.service.base.CourierService;
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,7 +33,7 @@ public class CourierServiceImpl implements CourierService {
     }
 
     //批量删除
-    @Override
+    @RequiresPermissions(value = "courier-delete")//courier-delete权限关键字,当用户必须具有这个权限才能调用这个方法
     public void deleteBatch(String ids) {
         if (StringUtils.isNotBlank(ids)) {
             String[] cIds = ids.split(",");
