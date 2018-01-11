@@ -159,8 +159,8 @@
             $.messager
                 .confirm('系统提示', '您确定要退出本次登录吗?', function (isConfirm) {
                     if (isConfirm) {
-                        //location.href = './login.jsp';
-                        window.location.href = "userAction_logout.action";
+                        location.href = 'logout';
+                        //window.location.href = "userAction_logout.action";
                     }
                 });
         }
