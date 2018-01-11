@@ -64,4 +64,12 @@ public class UserAction extends CommonAction<User> {
         }
         return result;
     }
+
+    //用户注销
+    @Action(value = "userAction_logout", results = {@Result(name = "login", type = "redirect", location = "/login.jsp")})
+    public String logout() throws Exception {
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        return LOGIN;
+    }
 }
