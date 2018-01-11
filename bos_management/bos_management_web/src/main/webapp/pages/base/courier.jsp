@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
+<%--导入shiro标签库--%>
+<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -53,7 +55,7 @@
             //获得所有选中行
             var rows = $("#grid").datagrid("getSelections");
             //判断选中行是否为空
-            if (rows.length==0) {
+            if (rows.length == 0) {
                 $.messager.alert("提示信息", "请选要还原的数据!", "warning");
             } else {
                 //取出所选快递员id
@@ -67,34 +69,42 @@
         }
 
         //工具栏
-        var toolbar = [{
-            id: 'button-add',
-            text: '增加',
-            iconCls: 'icon-add',
-            handler: doAdd
-        }, {
-            id: 'button-edit',
-            text: '修改',
-            iconCls: 'icon-edit',
-            handler: doEdit
-        }, {
-            id: 'button-delete',
-            text: '作废',
-            iconCls: 'icon-cancel',
-            handler: doDelete
-        }, {
-            id: 'button-restore',
-            text: '还原',
-            iconCls: 'icon-save',
-            handler: doRestore
-        }, {
-            id: 'button-search',
-            text: '查询',
-            iconCls: 'icon-search',
-            handler: function () {
-                $("#searchWindow").window("open");
-            }
-        }];
+        var toolbar = [
+            <shiro:hasPermission name="courier-add">
+            {
+                id: 'button-add',
+                text: '增加',
+                iconCls: 'icon-add',
+                handler: doAdd
+            },
+            </shiro:hasPermission>
+
+            <shiro:hasPermission name="courier-edit">
+            {
+                id: 'button-edit',
+                text: '修改',
+                iconCls: 'icon-edit',
+                handler: doEdit
+            },
+            </shiro:hasPermission>
+            {
+                id: 'button-delete',
+                text: '作废',
+                iconCls: 'icon-cancel',
+                handler: doDelete
+            }, {
+                id: 'button-restore',
+                text: '还原',
+                iconCls: 'icon-save',
+                handler: doRestore
+            }, {
+                id: 'button-search',
+                text: '查询',
+                iconCls: 'icon-search',
+                handler: function () {
+                    $("#searchWindow").window("open");
+                }
+            }];
         // 定义列
         var columns = [[{
             field: 'id',
